@@ -1,0 +1,35 @@
+﻿using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.GameMenus;
+
+namespace RecruitBandits
+{
+  public class HideoutVisitCampaignBehavior : CampaignBehaviorBase
+  {
+    public override void SyncData(IDataStore dataStore)
+    {
+    }
+
+    public override void RegisterEvents()
+    {
+      CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, AddGameMenus);
+    }
+
+    protected void AddGameMenus(CampaignGameStarter campaignGameStarter)
+    {
+      campaignGameStarter.AddGameMenuOption("hideout_place", "recruit_volunteers", "{=E31IJyqs}Recruit troops", game_menu_recruit_volunteers_on_condition, game_menu_recruit_volunteers_on_consequence);
+    }
+        
+    private static void game_menu_recruit_volunteers_on_consequence(MenuCallbackArgs args)
+    {
+    }
+        
+    private static bool game_menu_recruit_volunteers_on_condition(MenuCallbackArgs args)
+    {
+      args.optionLeaveType = GameMenuOption.LeaveType.Recruit;
+      return true;
+    }
+        
+    [GameMenuEventHandler("hideout_place", "recruit_volunteers", GameMenuEventHandler.EventType.OnConsequence)]
+    private static void game_menu_ui_recruit_volunteers_on_consequence(MenuCallbackArgs args) => args.MenuContext.OpenRecruitVolunteers();
+  }
+}
