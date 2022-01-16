@@ -2,6 +2,7 @@
 using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
+using TaleWorlds.Core;
 
 namespace RecruitBandits
 {
@@ -85,18 +86,23 @@ namespace RecruitBandits
       var countForSettlementLeaders = 3;
       if (settlement.Prosperity >= 3000.0)
         countForSettlementLeaders = settlement.Prosperity >= 6000.0 ? 5 : 4;
-      var currentNotables = settlement.Notables.Where(n => n.Occupation == Occupation.Bandit);
+      var currentNotables = settlement.Notables.Where(n => n.Occupation == Occupation.GangLeader);
       var missingNotablesCount = countForSettlementLeaders - currentNotables.Count();
 
       for (var index = 0; index < missingNotablesCount; ++index)
       {
         var bandit = HeroCreator.CreateSpecialHero(settlement.Culture.BanditBoss, settlement, settlement.OwnerClan);
         bandit.SetNewOccupation(Occupation.GangLeader);
-        // todo : is this necessary ?
-        EnterSettlementAction.ApplyForCharacterOnly(bandit, settlement);
         System.Diagnostics.Debug.WriteLine(bandit.Name + " (" + bandit.Age + ") created at " + settlement.Name);
+        EnterHideoutAction.Apply(bandit, settlement);
         if (settlement.Notables.Contains(bandit))
           System.Diagnostics.Debug.WriteLine(bandit.Name + " is a notable at " + settlement.Name);
+      }
+      
+      // Set clan leader ?
+      if (settlement.OwnerClan.Leader == null && !settlement.Notables.IsEmpty())
+      {
+        settlement.OwnerClan.SetLeader(settlement.Notables.First());
       }
     }
   }

@@ -15,6 +15,7 @@ namespace RecruitBandits
       CampaignEvents.DailyTickSettlementEvent.AddNonSerializedListener(this, DailyTickHideout);
     }
 
+    // todo : this is constantly running...
     private void DailyTickHideout(Settlement settlement)
     {
       UpdateVolunteersOfNotablesInHideout(settlement);
@@ -24,7 +25,7 @@ namespace RecruitBandits
     {
       if (!settlement.IsHideout) return;
 
-      System.Diagnostics.Debug.WriteLine("Volunteers at " + settlement.Name);
+      //System.Diagnostics.Debug.WriteLine("Volunteers at " + settlement.Name);
       foreach (var notable in settlement.Notables)
       {
         if (!notable.CanHaveRecruits) continue;
@@ -36,14 +37,14 @@ namespace RecruitBandits
             var volunteerType = notable.VolunteerTypes[index];
             if (volunteerType == null)
             {
-              System.Diagnostics.Debug.WriteLine("Volunteer type NULL");
+              //System.Diagnostics.Debug.WriteLine("Volunteer type NULL");
               notable.VolunteerTypes[index] = basicVolunteer;
-              System.Diagnostics.Debug.WriteLine("Volunteer = " + basicVolunteer.Name);
+              //System.Diagnostics.Debug.WriteLine("Volunteer = " + basicVolunteer.Name);
               flag = true;
             }
             else
             {
-              System.Diagnostics.Debug.WriteLine("Volunteer type = " + volunteerType.Name);
+              //System.Diagnostics.Debug.WriteLine("Volunteer type = " + volunteerType.Name);
               var num = (float) (40000.0 / (MathF.Max(50f, notable.Power) *
                                             (double) MathF.Max(50f, notable.Power)));
               if (MBRandom.RandomInt((int) MathF.Max(2f, volunteerType.Tier * num)) == 0 &&
@@ -65,7 +66,8 @@ namespace RecruitBandits
             var characterObject1 = volunteerTypes[index1];
             if (characterObject1 != null)
             {
-              System.Diagnostics.Debug.WriteLine("characterObject1 = " + characterObject1.Name);
+              //
+              //System.Diagnostics.Debug.WriteLine("characterObject1 = " + characterObject1.Name);
               var num = 0;
               var index2 = index1 - 1;
               var characterObject2 = volunteerTypes[index2];
