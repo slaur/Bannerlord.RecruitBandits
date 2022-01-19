@@ -14,7 +14,6 @@ namespace RecruitBandits
             }
 
             ((CampaignGameStarter) gameStarterObject).AddBehavior(new BanditCharactersCampaignBehavior());
-            ((CampaignGameStarter) gameStarterObject).AddBehavior(new BanditRecruitmentCampaignBehavior());
             ((CampaignGameStarter) gameStarterObject).AddBehavior(new HideoutVisitCampaignBehavior());
         }
     }

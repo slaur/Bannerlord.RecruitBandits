@@ -16,8 +16,8 @@ namespace RecruitBandits
 
     protected void AddGameMenus(CampaignGameStarter campaignGameStarter)
     {
-      campaignGameStarter.AddGameMenuOption("hideout_place", "recruit_volunteers", "{=E31IJyqs}Recruit troops", game_menu_recruit_volunteers_on_condition, game_menu_recruit_volunteers_on_consequence);
-      campaignGameStarter.AddGameMenuOption("hideout_place", "join_bandits", "Join the bandits", game_menu_join_bandits_on_condition, game_menu_join_bandits_on_consequence);
+      campaignGameStarter.AddGameMenuOption("hideout_place", "recruit_volunteers", "{=E31IJyqs}Recruit troops",
+        game_menu_recruit_volunteers_on_condition, game_menu_recruit_volunteers_on_consequence, false, 2);
     }
 
     private static bool game_menu_recruit_volunteers_on_condition(MenuCallbackArgs args)
@@ -25,23 +25,21 @@ namespace RecruitBandits
       args.optionLeaveType = GameMenuOption.LeaveType.Recruit;
       return true;
     }
-    
+
     private static void game_menu_recruit_volunteers_on_consequence(MenuCallbackArgs args)
     {
     }
-        
+
+    // See TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.RecruitVolunteerVM (volunteerTroopVm.PlayerHasEnoughRelation)
     [GameMenuEventHandler("hideout_place", "recruit_volunteers", GameMenuEventHandler.EventType.OnConsequence)]
-    private static void game_menu_ui_recruit_volunteers_on_consequence(MenuCallbackArgs args) => args.MenuContext.OpenRecruitVolunteers();
-    
-    private static bool game_menu_join_bandits_on_condition(MenuCallbackArgs args)
+    private static void game_menu_ui_recruit_volunteers_on_consequence(MenuCallbackArgs args)
     {
-      args.optionLeaveType = GameMenuOption.LeaveType.Mission;
-      return true;
-    }
-    
-    private static void game_menu_join_bandits_on_consequence(MenuCallbackArgs args)
-    {
-      JoinBanditsAction.ApplyForClan(Clan.PlayerClan, MobileParty.MainParty.LastVisitedSettlement);
+      var settlement = Hero.MainHero.CurrentSettlement;
+      BanditHelper.SpawnHideoutNotables(settlement);
+      BanditHelper.SetHideoutNotablesRelations(settlement);
+      BanditHelper.UpdateHideoutVolunteers(settlement);
+      args.MenuContext.OpenRecruitVolunteers();
+      BanditHelper.RemoveHideoutNotables(settlement);
     }
   }
 }
