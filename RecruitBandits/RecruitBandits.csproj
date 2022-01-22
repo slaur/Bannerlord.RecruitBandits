@@ -63,6 +63,10 @@
       <HintPath>%(Identity)</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="0Harmony, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Lib.Harmony.2.2.0\lib\net472\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -71,6 +75,8 @@
   <ItemGroup>
     <Compile Include="BanditHelper.cs" />
     <Compile Include="BanditRelationCampaignBehavior.cs" />
+    <Compile Include="JoinBanditsAction.cs" />
+    <Compile Include="Patches\RecruitBanditsPatches.cs" />
     <Compile Include="QuitHideoutAction.cs" />
     <Compile Include="StayInHideoutAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,6 +84,9 @@
     <Compile Include="HideoutVisitCampaignBehavior.cs" />
     <Compile Include="SubModule.cs" />
     <Content Include="SubModule.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <!-- Post-Build -->
   <PropertyGroup>

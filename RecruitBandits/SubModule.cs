@@ -1,3 +1,4 @@
+using HarmonyLib;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
@@ -15,6 +16,13 @@ namespace RecruitBandits
 
             ((CampaignGameStarter) gameStarterObject).AddBehavior(new BanditCharactersCampaignBehavior());
             ((CampaignGameStarter) gameStarterObject).AddBehavior(new HideoutVisitCampaignBehavior());
+        }
+        
+        protected override void OnSubModuleLoad()
+        {
+            base.OnSubModuleLoad();
+            var harmony = new Harmony("slaur4.bannerlord.RecruitBandits.patch");
+            harmony.PatchAll();
         }
     }
 }

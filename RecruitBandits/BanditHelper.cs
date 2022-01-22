@@ -31,6 +31,8 @@ namespace RecruitBandits
       for (var index = 0; index < missingNotablesCount; ++index)
       {
         var bandit = HeroCreator.CreateSpecialHero(settlement.Culture.BanditBoss, settlement, settlement.OwnerClan);
+        bandit.StringId += "Recruit_Bandits";
+        bandit.CharacterObject.StringId += "Recruit_Bandits";
         bandit.SetNewOccupation(Occupation.GangLeader);
         System.Diagnostics.Debug.WriteLine(bandit.Name + " (" + bandit.Age + ") created at " + settlement.Name);
         StayInHideoutAction.Apply(bandit, settlement);
